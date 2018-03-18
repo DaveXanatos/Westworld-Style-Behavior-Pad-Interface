@@ -91,7 +91,7 @@ function loadProfile(which) {
 	test2(100)
 }
 
-function echoHost() {
+function echoHostXY() {
 	hostVals = "";
 	for (i=0;i<L;i++) {
 		inX = "p" + i + "x"
@@ -102,6 +102,20 @@ function echoHost() {
 	}
 	alert(hostVals);
 }
+
+function echoHost() {
+	hostVals = "";
+	for (i=0;i<L;i++) {
+		thisI = "activeAttVal_" + i
+		thisV = document.getElementById(thisI).value;
+		hostVals = hostVals + thisV + "\n"
+	}
+	alert(L + " " + hostVals);
+	<?php $fp = fopen('host_01.txt', 'w+');
+	fwrite($fp, 'testData');
+	fclose($fp); ?>
+}
+
 
 // Set up attribute Array - Note they start at 6:00 and build counterclockwise.
 var attribute = [<?php 
@@ -223,12 +237,8 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 			endIMX = Math.round(drwXea + ctxMTW) // Measured Text Width
 			endIMY = Math.round(drwYea - ccD*.2) // Calculated Text Height
 
-			//alert(txt + "\n" + ctxMTW + "\n" + startIMX + "," + startIMY + "," + endIMX + "," + endIMY)
-			thesePoints = startIMX + "," + startIMY + "," + endIMX + "," + endIMY
-			//alert(txt + "\n" + thesePoints)
-			document.getElementById("IMC" + attrib_cnt).value = thesePoints
-			//mapPoints[attrib_cnt] = '<area shape="rect" coords="' + thesePoints + '" onclick="setAttrib(' + aC + ')" />'
-			//alert(txt + "\n" + mapPoints[attrib_cnt])
+			thesePoints = startIMX + "," + startIMY + "," + endIMX + "," + endIMY  // Image Map Coordinates (IMCx)
+			document.getElementById("IMC" + attrib_cnt).value = thesePoints        // Set hiddeen input vals to hold Image Map Coordinates
 			
 			ctx.fillText(txt,drwXea,drwYea);
 
@@ -354,9 +364,9 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
 		<input type="hidden" name="activeAttrib" id="activeAttrib" />          <!--  Which Attribute is currently selected -->
         <script language="JavaScript">
 		for (iav=0;iav<L;iav++) {
-			document.write('<input type="hidden" name="activeAttVal_' + iav + '" id="activeAttVal_' + iav + '" />');
-			document.write('<input type="hidden" name="p' + iav + 'x" id="p' + iav + 'x" /><input type="hidden" name="p' + iav + 'y" id="p' + iav + 'y" />');
-			document.write('<input type="text" name="IMC' + iav + '" id="IMC' + iav + '" />');
+			document.write('<input type="hidden" name="activeAttVal_' + iav + '" id="activeAttVal_' + iav + '" value="100" />');  // Currently Active Attribute Values, default is 100
+			document.write('<input type="hidden" name="p' + iav + 'x" id="p' + iav + 'x" /><input type="hidden" name="p' + iav + 'y" id="p' + iav + 'y" />');  //Current X/Y Vals
+			document.write('<input type="hidden" name="IMC' + iav + '" id="IMC' + iav + '" />');  // Image Map Coordinates
 		}
 		</script>
 	</form>
@@ -423,7 +433,7 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
 	<a href="#" style="color:#ffffff;" onClick="loadProfile(1);return false;">Load Profile</a>    
 	<!-- <a href="#" style="color:#ffffff;" onClick="readHost('HostBuilds/1.txt');return false;">Read in text file</a> -->
 	<a href="#" style="color:#ffffff;" onClick="echoHost();return false;">Display Loaded Values</a>
-	<a id='test' href='data:text;charset=utf-8,"+encodeURIComponent("hi")+"' download=hostProfile_01.txt>Save Profile</a><br />  <!--  download attribute allows for change of file extension.  If none given, defaults to .txt -->
+	<a id='test' href='data:text;charset=utf-8,'"+encodeURIComponent("' + "hi" + '")+ "' download=hostProfile_01.txt'>Save Profile</a><br />  <!--  download attribute allows for change of file extension.  If none given, defaults to .txt -->
 	<span style="color:#ffffff;">Select Profile to load:  <input type="file" onchange="loadFile(this)"></span><br />
 
 <!--<div id="selAtt" style="color:#667777;position:absolute;top:743px;left:-50px;width:200px;height:20px;font-family:arial;font-size:20px;"></div>-->
