@@ -1,7 +1,21 @@
 ﻿<?php 
 ini_set('display_errors', 1);
 error_reporting(R_ALL & ~E_NOTICE);
+
+$user_id = mysql_real_escape_string($_POST['user_id']);
+$account_number = mysql_real_escape_string($_POST['account_number']);
+$request_type = mysql_real_escape_string($_POST['request_type']);
+
+//$query = "INSERT INTO tbl_requests (request_type_id,sales_person_id,account_number,shipTo,company_name,address,city,state,zip,contact_f_name,contact_l_name,contact_title,contact_email,phone)";
+//$query .= "VALUES (" . $request_type . "," . $sales_person_id . ",'$account_number','$shipTo','$company_name','$address','$city','$state','$zip','$OCPFname','$OCPLname','$OCPtitle','$OCPemail','$OCPphone')";
+
+//$result = mysql_query($query);
+//$request_id = mysql_insert_id() or die(mysql_error());    // This id number is generated AFTER the above insertion
+//$request_id = 0;
+//echo $query;
+
 ?>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,14 +41,30 @@ Set system to save a profile
 
 <script language="JavaScript">
 <!-- //
-window.onresize = function(){ location.reload(); }
+function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "scandir.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
 
 ts=0;
 if ('ontouchstart' in window) {
 	alert("TouchScreen");
 	ts=1;
 }
-	
+
+window.onresize = function(){ location.reload(); }
+
 var winWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
@@ -52,7 +82,7 @@ function buildMap() {
 	return false;
 }
 		
-function loadFile(o) {	
+function loadFile(o) {	   // This is JavaScript only, looking at local file location
 	alert(o.target);
 	var fr = new FileReader();
 	fr.onload = function(e)
@@ -108,14 +138,13 @@ function echoHost() {
 	for (i=0;i<L;i++) {
 		thisI = "activeAttVal_" + i
 		thisV = document.getElementById(thisI).value;
-		hostVals = hostVals + thisV + "\n"
+		hostVals = hostVals + i + ": " + thisV + "\n"
 	}
-	alert(L + " " + hostVals);
+	alert(hostVals);
 	<?php $fp = fopen('host_01.txt', 'w+');
 	fwrite($fp, 'testData');
 	fclose($fp); ?>
 }
-
 
 // Set up attribute Array - Note they start at 6:00 and build counterclockwise.
 var attribute = [<?php 
@@ -250,7 +279,7 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 function draw() {
 	var graphColor = "#446670";
 	var strokeColor = "#446670"
-	ctxfont = ccD*.2 + "px Arial";
+	ctxfont = ccD*.18 + "px Arial";
 	ctxfillStyle = "#70a8c9"; //"#668891";
 	var canvas = document.getElementById('hostgram');
 	//Draw concentric circles of hostgram, spokes, etc
@@ -258,7 +287,7 @@ function draw() {
 
 	var graphColor = "#003333";
 	var strokeColor = "#114450"
-	ctxfont = ccD*.2 + "px Arial";
+	ctxfont = ccD*.18 + "px Arial";
 	ctxfillStyle = "#70a8c9"; //"#668891";
 	var canvas = document.getElementById('bggram');
 	//Draw concentric circles of bggram, spokes, etc
@@ -429,14 +458,16 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
 			}
 		</script>
 	</div>
-
-	<a href="#" style="color:#ffffff;" onClick="loadProfile(1);return false;">Load Profile</a>    
-	<!-- <a href="#" style="color:#ffffff;" onClick="readHost('HostBuilds/1.txt');return false;">Read in text file</a> -->
-	<a href="#" style="color:#ffffff;" onClick="echoHost();return false;">Display Loaded Values</a>
-	<a id='test' href='data:text;charset=utf-8,'"+encodeURIComponent("' + "hi" + '")+ "' download=hostProfile_01.txt'>Save Profile</a><br />  <!--  download attribute allows for change of file extension.  If none given, defaults to .txt -->
-	<span style="color:#ffffff;">Select Profile to load:  <input type="file" onchange="loadFile(this)"></span><br />
-
-<!--<div id="selAtt" style="color:#667777;position:absolute;top:743px;left:-50px;width:200px;height:20px;font-family:arial;font-size:20px;"></div>-->
+	
+    <div id="menus" name="menus" style="width:500px;border:1px solid #066;padding:4px;">
+	<a href="#" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;" onClick="loadProfile(1);return false;">Load Profile</a><br />  
+	<a href="#" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;" onClick="echoHost();return false;">Display Loaded Values</a><br />
+	<a id='test' href='data:text;charset=utf-8,'"+encodeURIComponent("' + "hi" + '")+ "' download=hostProfile_01.txt' style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">Save Profile</a><br />  <!--  download attribute allows for change of file extension.  If none given, defaults to .txt -->
+	<span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">Select Profile to load:  <input type="file" onchange="loadFile(this)" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;"></span><br />
+    <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">Type Host Name: <input type="text" onkeyup="showHint(this.value)"></span> <span id="txtHint" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;"></span> <br />
+	</div>
+    
+	<!--<div id="selAtt" style="color:#667777;position:absolute;top:743px;left:-50px;width:200px;height:20px;font-family:arial;font-size:20px;"></div>-->
     
 	<script language="JavaScript">
 		document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*7.43 + 'px;left:-' + ccD*.5 + 'px;width:' + ccD*2 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
