@@ -2,9 +2,9 @@
 ini_set('display_errors', 1);
 error_reporting(R_ALL & ~E_NOTICE);
 
-$user_id = mysql_real_escape_string($_POST['user_id']);
-$host_namer = mysql_real_escape_string($_POST['host_name']);
-$request_type = mysql_real_escape_string($_POST['request_type']);
+$user_id = htmlspecialchars($_GET['user_id']);
+$host_name = htmlspecialchars($_GET['hName']);
+$request_type = htmlspecialchars($_GET['req']);
 
 //$query = "INSERT INTO tbl_requests (request_type,user_id,host_name)";
 //$query .= "VALUES (" . $request_type . "," . $user_id . ",'$host_name')";
@@ -16,12 +16,11 @@ $request_type = mysql_real_escape_string($_POST['request_type']);
 
 ?>
 
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Host Behavior Pad Control Interface</title>
+<title><?= $host_name ?> Host Behavior Pad Control Interface</title>
 <!-- https://youtu.be/L6EatojX3SI -->
 <!-- ****************** TO DO LIST **************************
 
@@ -43,7 +42,7 @@ Set system to save a profile
 <!-- //
 function findHost(str) {
     if (str.length == 0) { 
-        document.getElementById("txtHint").innerHTML = "";
+        document.getElementById("hostList").innerHTML = "";
         return;
     } else {
         var xmlhttp = new XMLHttpRequest();
@@ -144,6 +143,16 @@ function echoHost() {
 	<?php $fp = fopen('host_01.txt', 'w+');
 	fwrite($fp, 'testData');
 	fclose($fp); ?>
+}
+
+function loadHost() {
+	hostVals = "";
+	for (i=0;i<L;i++) {
+		thisI = "activeAttVal_" + i
+		thisV = document.getElementById(thisI).value;
+		hostVals = hostVals + i + ": " + thisV + "\n"
+	}
+	alert("Testing only!\n" + hostVals);
 }
 
 // Set up attribute Array - Note they start at 6:00 and build counterclockwise.
@@ -464,8 +473,8 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
   document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="loadProfile(1);return false;">Load Profile</a><br />')
   document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="echoHost();return false;">Display Loaded Values</a><br />')
   document.write('<a id="test" href="#" onClick="echoHost();return false;" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Save Profile</a><br />')
-  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Select Profile to load:  <input type="file" onchange="loadFile(this)" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br />')
-  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Type Host Name: <input type="text" onkeyup="findHost(this.value)" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
+  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Type Host Name: <input type="text" onkeyup="findHost(this.value)" size="12" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br /><span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
+  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Current Host: <?= $host_name ?></span><br />')
   document.write('</div>')
 </script>
 

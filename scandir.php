@@ -1,31 +1,46 @@
 <?php
-// Array with names
+// Create array with names from host profiles directory
 $dir = 'HostBuilds/'; 
 $files = scandir($dir); 
 foreach($files as $ind_file){ 
 	$a[] = $ind_file;
 } 
 
-// get the q parameter from URL
 $q = $_REQUEST["q"];
+$x = "";
+$predict = "";
 
-$hint = "";
-
-// lookup all hints from array if $q is different from "" 
 if ($q !== "") {
     $q = strtolower($q);
     $len=strlen($q);
     foreach($a as $name) {
         if (stristr($q, substr($name, 0, $len))) {
-            if ($hint === "") {
-                $hint = $name;
+            if ($predict === "") {
+                $predict = $name;
+				$x = explode(".", $predict);
+				$predict = $x[0];
             } else {
-                $hint .= ", $name";
+                $predict .= ", $name";
+				$x = explode(".", $predict);
+				$predict = $x[0];
             }
         }
     }
 }
 
-// Output "no suggestion" if no hint was found or output correct values 
-echo $hint === "" ? "no suggestion" : $hint;
+$items = explode(",",$predict);
+$c = count($items);
+$temp = "";
+for ($i=0;$i<=$c;$i++) {
+	$thisOne = trim($items[$i]);
+	if (strlen($thisOne) > 3) {
+		$temp .= "<a href='?req=LH&hName=".$thisOne."' style='color:#7799cc;'>".$thisOne."</a> ";
+	}
+}
+
+$predict = trim($temp);
+
+$sl = strlen($predict);
+
+echo $predict === "" ? "no suggestion" : $predict;
 ?>
