@@ -3,11 +3,11 @@ ini_set('display_errors', 1);
 error_reporting(R_ALL & ~E_NOTICE);
 
 $user_id = mysql_real_escape_string($_POST['user_id']);
-$account_number = mysql_real_escape_string($_POST['account_number']);
+$host_namer = mysql_real_escape_string($_POST['host_name']);
 $request_type = mysql_real_escape_string($_POST['request_type']);
 
-//$query = "INSERT INTO tbl_requests (request_type_id,sales_person_id,account_number,shipTo,company_name,address,city,state,zip,contact_f_name,contact_l_name,contact_title,contact_email,phone)";
-//$query .= "VALUES (" . $request_type . "," . $sales_person_id . ",'$account_number','$shipTo','$company_name','$address','$city','$state','$zip','$OCPFname','$OCPLname','$OCPtitle','$OCPemail','$OCPphone')";
+//$query = "INSERT INTO tbl_requests (request_type,user_id,host_name)";
+//$query .= "VALUES (" . $request_type . "," . $user_id . ",'$host_name')";
 
 //$result = mysql_query($query);
 //$request_id = mysql_insert_id() or die(mysql_error());    // This id number is generated AFTER the above insertion
@@ -41,7 +41,7 @@ Set system to save a profile
 
 <script language="JavaScript">
 <!-- //
-function showHint(str) {
+function findHost(str) {
     if (str.length == 0) { 
         document.getElementById("txtHint").innerHTML = "";
         return;
@@ -49,7 +49,7 @@ function showHint(str) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("txtHint").innerHTML = this.responseText;
+                document.getElementById("hostList").innerHTML = this.responseText;
             }
         };
         xmlhttp.open("GET", "scandir.php?q=" + str, true);
@@ -459,18 +459,20 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
 		</script>
 	</div>
 	
-    <div id="menus" name="menus" style="width:500px;border:1px solid #066;padding:4px;">
-	<a href="#" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;" onClick="loadProfile(1);return false;">Load Profile</a><br />  
-	<a href="#" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;" onClick="echoHost();return false;">Display Loaded Values</a><br />
-	<a id='test' href='data:text;charset=utf-8,'"+encodeURIComponent("' + "hi" + '")+ "' download=hostProfile_01.txt' style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">Save Profile</a><br />  <!--  download attribute allows for change of file extension.  If none given, defaults to .txt -->
-	<span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">Select Profile to load:  <input type="file" onchange="loadFile(this)" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;"></span><br />
-    <span style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;">Type Host Name: <input type="text" onkeyup="showHint(this.value)"></span> <span id="txtHint" style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:12px;"></span> <br />
-	</div>
-    
+<script language="JavaScript">
+  document.write('<div id="menus" name="menus" style="width:' + ccD*4 + 'px;border:1px solid #066;padding:' + ccD*.05 + 'px;">')
+  document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="loadProfile(1);return false;">Load Profile</a><br />')
+  document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="echoHost();return false;">Display Loaded Values</a><br />')
+  document.write('<a id="test" href="#" onClick="echoHost();return false;" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Save Profile</a><br />')
+  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Select Profile to load:  <input type="file" onchange="loadFile(this)" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br />')
+  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Type Host Name: <input type="text" onkeyup="findHost(this.value)" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
+  document.write('</div>')
+</script>
+
 	<!--<div id="selAtt" style="color:#667777;position:absolute;top:743px;left:-50px;width:200px;height:20px;font-family:arial;font-size:20px;"></div>-->
     
 	<script language="JavaScript">
-		document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*7.43 + 'px;left:-' + ccD*.5 + 'px;width:' + ccD*2 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
+		document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*6.5 + 'px;left:-' + ccD*1.5 + 'px;width:' + ccD*4 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
 	</script>
 
 </div>
