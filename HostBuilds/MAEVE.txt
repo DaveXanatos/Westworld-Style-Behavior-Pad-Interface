@@ -1,5 +1,5 @@
-Maeve Millay|36|Madam at Mariposa|AC50000487105
-OCV|scaleFactor=1.1|minNeighbors=5|minSize=(30,30)
+Maeve Millay|F|36|Madam at The Mariposa|AC50000487105|
+OCV|scaleFactor=1.1|minNeighbors=5|minSize=(30,30)|
 IMAGINATION|59
 DECISIVENESS|64
 PATIENCE|13
