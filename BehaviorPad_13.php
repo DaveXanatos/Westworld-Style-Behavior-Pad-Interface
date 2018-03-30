@@ -5,9 +5,14 @@ error_reporting(R_ALL & ~E_NOTICE);
 $user_id = htmlspecialchars($_GET['user_id']);
 $host_name = htmlspecialchars($_GET['hName']);
 $request_type = htmlspecialchars($_GET['req']);
+$tv = htmlspecialchars($_GET['tv']);
 
 if ($host_name == "") {
 	$host_name = "MAEVE";
+}
+
+if ($tv == "") {
+	$tv = 50;
 }
 
 ?>
@@ -30,7 +35,7 @@ Set system to save a profile
 
 </head>
 
-<body bgcolor="#000000" onload="draw(); buildMap(); test2(50);">
+<body bgcolor="#000000" onload="draw(); buildMap(); loadHost();">
 
 <script language="JavaScript">
 <!-- //
@@ -111,7 +116,7 @@ function loadProfile(which) {
 		document.getElementById(inX).value = useVal[0];
 		document.getElementById(inY).value = useVal[1];
 	}
-	test2(100)
+	setVal(50)
 }
 
 function echoHostXY() {
@@ -139,16 +144,6 @@ function echoHost() {
 	fclose($fp); ?>
 }
 
-function loadHost() {
-	hostVals = "";
-	for (i=0;i<L;i++) {
-		thisI = "activeAttVal_" + i
-		thisV = document.getElementById(thisI).value;
-		hostVals = hostVals + i + ": " + thisV + "\n"
-	}
-	alert("Testing only!\n" + hostVals);
-}
-
 // Set up attribute Array - Note they start at 6:00 and build counterclockwise.
 var attribute = [<?php 
 	$data = file("HostBuilds/" . $host_name . ".txt");     // Reads each line of file into an addressable array $data(0), $data(1)...
@@ -162,10 +157,10 @@ var attribute = [<?php
 	$hCurrJob = $hostParts[3];
 	$hIDno = trim($hostParts[4]);
 	for ($v = 3; $v <= $n; $v++) {                         // First two lines are other data, not attribs.
-		print '"'.trim($data[$v-1]).'",';
+		print '"'.trim($data[$v-1]).'",';                  // "ATTRIB_NAME|VAL", "ATTRIB_NAME|VAL", ... "ATTRIB_NAME|VAL"
 	}?>];	
 
-L = attribute.length;
+L = attribute.length;                                      // Number of Attributes = Number of Spokes.
 
 // Set up display parameters      // <<<<<<<<<<<<<<<<<<<<<<<< PRIME CANDIDATE FOR PHP-IFYING
 var canvW = winHeight  // Will be set to screen Height: winHeight, when I make this fully scalable and elastic
@@ -320,7 +315,7 @@ function setAttrib(n) {
 	attrName = attribute[n].split("|");
 	document.getElementById("selAtt").innerHTML = attrName[0];   // Display selected attribute name
 	document.getElementById("activeAttrib").value = n;           // Set hidden input activeAttrib.value to be the selected attribute number
-	//test2(0)
+	//setVal(0)
 }
 
 function getCoords(attribNo,val) {
@@ -333,7 +328,15 @@ function getCoords(attribNo,val) {
 	return drwXe, drwYe
 }
 
-function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttrib.value), sets the 0-100 value into the hidden input for the selected value, then converts 0 ro 100 value to pixel coords to clip the polygon
+function loadHost() {
+	for (hv=0;hv<L;hv++) {
+	    thisName = attribute[hv].split("|");
+	    document.getElementById("activeAttrib").value = hv;           // Set hidden input activeAttrib.value to be the selected attribute number
+	    setVal(thisName[1]);
+	}
+}
+
+function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttrib.value), sets the 0-100 value into the hidden input for the selected value, then converts 0 ro 100 value to pixel coords to clip the polygon
 	whichAttrib = document.getElementById("activeAttrib").value   // Determine which attribute is active
 	if (whichAttrib == "" || whichAttrib == null) {               // If no attrib selected (initial opening) then set 0 as default selection
 		//alert("here")
@@ -443,7 +446,7 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
 <script language="JavaScript">
   document.write('<div id="side" style="background-color:#000000;position:absolute;top:0px;left:' + (canvH+1) + 'px;">')
   document.write('<form id="polyform" name="polyform">')
-  document.write('	<input type="range" orient="vertical" min="0" max="100" value="50" id="testRange" onmousemove="test2(this.value)" style="height:' + ocD + 'px;width:20px;position:absolute;top:' + ccD*1.5 + 'px;left:' + ccD + 'px;" /><br />')
+  document.write('	<input type="range" orient="vertical" min="0" max="100" value="50" id="testRange" onmousemove="setVal(this.value)" style="height:' + ocD + 'px;width:20px;position:absolute;top:' + ccD*1.5 + 'px;left:' + ccD + 'px;" /><br />')
   document.write('</form>')
   
   document.write('<div id="barContainer" style="background-color:#000000;border:0px;width:' + ccD*.44 + 'px;height:' + (ocD+50) + 'px;position:absolute;top:' + ccD*1.55 + 'px;left:' + ccD*.68 + 'px;">')   // Was: 'px;left:' + ccD*.68 + 'px;">')
@@ -477,7 +480,7 @@ function test2(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAttr
 <script language="JavaScript">  // This is the menu box at the top right.
   document.write('<div id="menus" name="menus" style="width:' + ccD*4 + 'px;border:1px solid #066;padding:' + ccD*.05 + 'px;">')
   document.write('<a href="index.php" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">MAIN MENU</a><br />')
-  document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="loadProfile(1);return false;">Load Profile</a><br />')
+  //document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="loadHost();return false;">Load Host</a><br />')
   document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="echoHost();return false;">Display Loaded Values</a><br />')
   document.write('<a id="test" href="#" onClick="echoHost();return false;" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Save Profile</a><br />')
   document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Type Host Name: <input type="text" onkeyup="findHost(this.value)" size="12" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br /><span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
