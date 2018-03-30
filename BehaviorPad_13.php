@@ -1,5 +1,6 @@
 ﻿<?php 
 ini_set('display_errors', 1);
+error_reporting(R_ALL & ~E_NOTICE);
 
 $user_id = htmlspecialchars($_GET['user_id']);
 $host_name = htmlspecialchars($_GET['hName']);
@@ -316,7 +317,8 @@ function draw() {
 
 function setAttrib(n) {
 	//alert(n);
-	document.getElementById("selAtt").innerHTML = attribute[n];  // Display selected attribute name
+	attrName = attribute[n].split("|");
+	document.getElementById("selAtt").innerHTML = attrName[0];   // Display selected attribute name
 	document.getElementById("activeAttrib").value = n;           // Set hidden input activeAttrib.value to be the selected attribute number
 	//test2(0)
 }
