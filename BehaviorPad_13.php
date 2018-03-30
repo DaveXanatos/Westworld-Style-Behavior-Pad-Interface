@@ -80,45 +80,6 @@ function buildMap() {
 	return false;
 }
 		
-function loadFile(o) {	   // This is JavaScript only, looking at local file location
-	alert(o.target);
-	var fr = new FileReader();
-	fr.onload = function(e)
-		{
-			showDataFile(e, o);
-		};
-	fr.readAsText(o.files[0]);
-}
-
-function showDataFile(e, o) {
-	//document.getElementById("data").innerText = e.target.result;
-	alert(e.target.result);
-}
-
-function loadProfile(which) {
-	document.getElementById("activeAttrib").value = 0
-	var pxy = [<?php 
-	$data = file('hostProfile_01.txt');     // Reads each line of file into an addressable array $data(0), $data(1)...
-	$n = count($data);                      // Gets line count in $data
-	for ($v = 1; $v <= $n; $v++) {
-		if ($v < $n) {
-			print '	"'.trim($data[$v-1]).'",';  // Add ."\n" to make each show on its own line
-		} else {
-			print '	"'.trim($data[$v-1]).'"';
-		}
-	}?>];
-
-	for (i=0;i<16;i++) {
-		inX = "p" + i + "x"
-		inY = "p" + i + "y"
-		var useVal = pxy[i].split(" ")
-		//alert(inX + " " + useVal[0] + " " + inY + " " + useVal[1])
-		document.getElementById(inX).value = useVal[0];
-		document.getElementById(inY).value = useVal[1];
-	}
-	setVal(50)
-}
-
 function echoHostXY() {
 	hostVals = "";
 	for (i=0;i<L;i++) {
@@ -441,9 +402,6 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
   document.write('<img src="image/xp.gif" style="width:' + canvH + 'px;height:' + canvH + 'px;position:absolute;top:0px;left:0px;" usemap="#grammap" />')
   document.write('<img src="image/button-cancel.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.25 + 'px;left:' + ccD*.6 + 'px;" />')
   document.write('<img src="image/button-modify.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.25 + 'px;left:' + ccD*1.7 + 'px;" />')
-</script>
-
-<script language="JavaScript">
   document.write('<div id="side" style="background-color:#000000;position:absolute;top:0px;left:' + (canvH+1) + 'px;">')
   document.write('<form id="polyform" name="polyform">')
   document.write('	<input type="range" orient="vertical" min="0" max="100" value="50" id="testRange" onmousemove="setVal(this.value)" style="height:' + ocD + 'px;width:20px;position:absolute;top:' + ccD*1.5 + 'px;left:' + ccD + 'px;" /><br />')
@@ -480,11 +438,9 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
 <script language="JavaScript">  // This is the menu box at the top right.
   document.write('<div id="menus" name="menus" style="width:' + ccD*4 + 'px;border:1px solid #066;padding:' + ccD*.05 + 'px;">')
   document.write('<a href="index.php" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">MAIN MENU</a><br />')
-  //document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="loadHost();return false;">Load Host</a><br />')
   document.write('<a href="#" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;" onClick="echoHost();return false;">Display Loaded Values</a><br />')
   document.write('<a id="test" href="#" onClick="echoHost();return false;" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Save Profile</a><br />')
   document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Type Host Name: <input type="text" onkeyup="findHost(this.value)" size="12" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br /><span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
-//  document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Current Host:  $host_name ?></span><br />')
   document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Current Host: <?= $hFname ?>, <?= $hSex ?>, <?= $hAge ?>,  <?= $hCurrJob ?></span><br />')
 
 document.write('</div>')
