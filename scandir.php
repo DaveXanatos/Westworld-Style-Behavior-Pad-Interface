@@ -42,5 +42,5 @@ $predict = trim($temp);
 
 $sl = strlen($predict);
 
-echo $predict === "" ? "no suggestion" : $predict;
+echo $predict === "" ? "no suggestion, <a href='#' style='color:red;'>create</a>?" : $predict;
 ?>
