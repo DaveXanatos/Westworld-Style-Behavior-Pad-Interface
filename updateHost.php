@@ -1,52 +1,46 @@
-<!--
-Bernard Lowe|M|52|Head of Behavior|A0A0000031484|
-OCV|scaleFactor=1.1|minNeighbors=5|minSize=(30,30)|
-IMAGINATION|68
-DECISIVENESS|62
-PATIENCE|72
-SELF-PRESERVATION|50
-CRUELTY|2
-HUMILITY|40
-MEEKNESS|12
-COORDINATION|50
-VIVACITY|42
-CANDOR|75
-BULK APPERCEPTION|92
-HUMOR|51
-CHARM|78
-SENSUALITY|61
-COURAGE|77
-TENACITY|89
-EMPATHY|84
-LOYALTY|92
-AGGRESSION|16
-CURIOSITY|79
-
-Form name/value pairs are:
-name="activeHost"
-name="activeAttrib"
-name="activeAttVal_ 0 to L"  L for most is 19 (20 attribs starting at 0, so 0 - 19)
-name="p0 to Lx"
-name="p0 to Ly"
-name="IMC0 to L
-
--->
-
 <?php
 $dir = 'HostBuilds/'; 
-$files = scandir($dir); 
-foreach($files as $ind_file){ 
-	$a[] = $ind_file;
-} 
-
 $activeHost = htmlspecialchars($_REQUEST["activeHost"]);
-$thisFileName = $activeHost.".txt"
-$activeAttVal_X = htmlspecialchars($_REQUEST["activeAttVal_X"]);
-$actionFlag = htmlspecialchars($_REQUEST["actionFlag"]);
+$my_file = $activeHost . ".txt";
+$filename = $dir . $my_file;
+$newFile = "";
 
+foreach ($_REQUEST as $key => $value)
+	if (strpos($key, 'activeAttVal_') !== false) {
+		$myDump = $myDump . htmlspecialchars($value) . "\r\n";
+	}
+echo $myDump."\r\n";
+
+$separator = "\r\n";
+$dline = explode($separator, $myDump);
+
+if (file_exists($filename)) {
+    //echo "The file $filename exists\r\n";
+	$lines = file($filename, FILE_IGNORE_NEW_LINES);    // $a = "activeAttVal_";     if (strpos($a, 'are') !== false) {     do whatever    }
+	$n = count($lines);
+	$newFile = $lines[0]."\r\n".$lines[1]."\r\n";
+	for ($i = 2; $i < $n; $i++) {
+		$thisAtt = explode("|",$lines[$i]);
+		$newFile = $newFile.$thisAtt[0]."|".$dline[$i-2]."\r\n";
+	}
+} else {
+    echo "The file $filename does not exist";
+}
+
+echo $newFile;
+
+//$my_file = $activeHost . ".txt";
+$handle = fopen($filename, 'w') or die('Cannot open file:  '.$filename);
+fwrite($handle, $newFile);
+fclose($handle);
+
+
+
+
+/*
 PseudoCode:
 
-Compare $a[] array with $thisFileName
+File Exists?
 if found:
     open and read in all lines, replace attribute name/value pairs with new value pairs to be saved.
 if notFound:
@@ -58,7 +52,9 @@ if notFound:
 
 NOTES:  For create, will need to add fields for new Host ID#, name, age, sex, occupation and OCV factors.
 
+*/
 
+?>
 		
 
 
