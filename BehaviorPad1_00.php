@@ -462,7 +462,10 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
 	</div>
 	
 <script language="JavaScript">  // This is the menu box at the top right.
-  document.write('<div id="menus" name="menus" style="width:' + ccD*4 + 'px;border:1px solid #066;padding:' + ccD*.05 + 'px;">')
+  document.write('<div id="menus" name="menus" style="position:absolute;top:30px;left:60px;width:' + ccD*4 + 'px;height:' + ccD*1 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
+
+  document.write('<img class="hostImage" src="image/Hosts/<?= $host_name ?>.jpg" style="clip-path:circle(51%);position:absolute;top:0px;left:-' + ccD*1.1 + 'px;width:' + ccD*1 + 'px;height:' + ccD*1 + 'px;">')
+
   document.write('<a href="index.php" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">MAIN MENU</a><br />')
   document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Load Host: <input type="text" onkeyup="findHost(this.value)" size="12" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br /><span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
   document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Current Host: <?= $hFname ?>, <?= $hSex ?>, <?= $hAge ?>,  <?= $hCurrJob ?></span><br />')
