@@ -35,8 +35,6 @@ fwrite($handle, $newFile);
 fclose($handle);
 
 
-
-
 /*
 PseudoCode:
 
@@ -51,13 +49,6 @@ if notFound:
 	    Return fail code, exit.
 
 NOTES:  For create, will need to add fields for new Host ID#, name, age, sex, occupation and OCV factors.
-
 */
 
 ?>
-		
-
-
-
-
-
