@@ -33,9 +33,115 @@ Set system to save a profile
 
 <link rel="stylesheet" type="text/css" href="styles.css">
 
+<script>
+function startTime() {
+    var today = new Date();
+	var dy = today.getDate();
+	var mn = today.getMonth() + 1;
+	var yr = 2000 + (today.getYear() - 100);
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+	dy = checkTime(dy);
+	mn = checkTime(mn);
+    document.getElementById('timebox').innerHTML = "<b style='color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:" + ccD*.20 + "px;'>" + mn + "/" + dy + "/" + yr + "  " + h + ":" + m + ":" + s + "</b>";
+    var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+
+function MakeArray(nom) {
+        this.length = nom
+        for (var c = 1; c<=nom; c++)
+                {
+                this[c] = new Image()
+                }
+        return this
+        }
+
+if ((navigator.userAgent.substring(0,9) == "Mozilla/3") ||
+    (navigator.userAgent.substring(0,9) == "Mozilla/4") ||
+	(navigator.userAgent.substring(0,9) == "Mozilla/5") ||
+	(navigator.userAgent.substring(0,9) == "Mozilla/6"))
+
+        {
+        Nstandard = new MakeArray(10)
+        Nover = new MakeArray(10)
+
+		Nstandard[1].src = "image/button-cancel.jpg"
+        Nstandard[2].src = "image/button-modify.jpg"
+        Nstandard[3].src = "image/button-commit.jpg"
+		Nstandard[4].src = "image/buttons/button0.jpg"
+		Nstandard[5].src = "image/buttons/button0.jpg"
+		Nstandard[6].src = "image/buttons/button0.jpg"
+		Nstandard[7].src = "image/buttons/button0.jpg"
+		Nstandard[8].src = "image/buttons/button0.jpg"
+ 
+        Nover[1].src = "image/button-cancel1.jpg"
+        Nover[2].src = "image/button-modify1.jpg"
+        Nover[3].src = "image/button-commit1.jpg"
+		Nover[4].src = "image/buttons/button1.jpg"
+		Nover[5].src = "image/buttons/button1.jpg"
+		Nover[6].src = "image/buttons/button1.jpg"
+		Nover[7].src = "image/buttons/button1.jpg"
+		Nover[8].src = "image/buttons/button1.jpg"
+        }
+
+function nameover(num)
+        {
+        if ((navigator.userAgent.substring(0,9) == "Mozilla/3") ||
+            (navigator.userAgent.substring(0,9) == "Mozilla/4") ||
+			(navigator.userAgent.substring(0,9) == "Mozilla/5") ||
+			(navigator.userAgent.substring(0,9) == "Mozilla/6"))
+                {
+                if (Nover[num].src != "")
+                        {
+						if (num == 1) {document.wanji.src = Nover[num].src}
+						if (num == 2) {document.nunpa.src = Nover[num].src}
+						if (num == 3) {document.yamni.src = Nover[num].src}
+						if (num == 4) {document.topa.src = Nover[num].src}
+						if (num == 5) {document.zaptan.src = Nover[num].src}
+						if (num == 6) {document.shakpe.src = Nover[num].src}
+						if (num == 7) {document.shakowin.src = Nover[num].src}
+						if (num == 8) {document.shaglogon.src = Nover[num].src}
+						if (num == 9) {document.napciunka.src = Nover[num].src}
+						if (num == 10) {document.wickcemna.src = Nover[num].src}
+                       }
+                }
+        }
+
+function nameout(num)
+        {
+        if ((navigator.userAgent.substring(0,9) == "Mozilla/3") ||
+            (navigator.userAgent.substring(0,9) == "Mozilla/4") ||
+			(navigator.userAgent.substring(0,9) == "Mozilla/5") ||
+			(navigator.userAgent.substring(0,9) == "Mozilla/6"))
+                {   
+                if (Nstandard[num].src != "")
+                        {
+                        if (num == 1) {document.wanji.src = Nstandard[num].src}
+						if (num == 2) {document.nunpa.src = Nstandard[num].src}
+						if (num == 3) {document.yamni.src = Nstandard[num].src}
+						if (num == 4) {document.topa.src = Nstandard[num].src}
+						if (num == 5) {document.zaptan.src = Nstandard[num].src}
+						if (num == 6) {document.shakpe.src = Nstandard[num].src}
+						if (num == 7) {document.shakowin.src = Nstandard[num].src}
+						if (num == 8) {document.shaglogon.src = Nstandard[num].src}
+						if (num == 9) {document.napciunka.src = Nstandard[num].src}
+						if (num == 10) {document.wickcemna.src = Nstandard[num].src}
+                        }
+                }
+        }
+// <a href="xxx.html" onMouseOver="nameover(1); return true" onMouseOut="nameout(1)"><img name="wanji" SRC="image/buttons/xxx0.jpg" width=100 height=20 border=0></a><br />
+</script>
+
 </head>
 
-<body bgcolor="#000000" onload="draw(); buildMap(); loadHost(); setAttrib(0);">
+<body bgcolor="#000000" onload="draw(); buildMap(); loadHost(); setAttrib(0); startTime();">
 
 <script>
 <!-- //
@@ -47,7 +153,7 @@ Set system to save a profile
 	//alert(winWidth + " " + winHeight)
     document.write('<a href="#" onClick="showHide()"><img src="image/DelosLogo.jpg" style="width:' + winHeight*.1738 + 'px;height:' + winHeight*.0545 + 'px;border:0px;"></a>')    // Based on an 863.1 pixel winHeight, 150px x 47px  // 1.1586 should yielod a 1000px image on the 863.1 px high window height initially designed on.
 	var displayPath = location.pathname;
-    document.write('<span style="position:relative;top:-5px;left:250px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
+    document.write('<span style="position:relative;top:-5px;left:20px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">Connected: CR4D-L/Host_Builds' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
     document.write('<div id="BPMatrix" style="position:absolute;top:' + winHeight*.08 + 'px;left:' + winHeight*.07 + 'px;display:none;">') 
 
 function showHide() {
@@ -77,7 +183,7 @@ function findHost(str) {
 
 ts=0;
 if ('ontouchstart' in window) {
-	alert("TouchScreen");
+	//alert("TouchScreen");
 	ts=1;
 }
 
@@ -140,6 +246,20 @@ function echoHost() {
 	} else {
     	return false;
   }
+}
+
+function sendHost()   // Dis Don't Work...  Probably need to send to a separate PHP file like I do above in echoHost()
+{
+	if (confirm("Are you sure you want to upload the current host profile to the live host?") == true) {
+		var whichHost = "<?= $host_name ?>"
+		var xhr = new XMLHttpRequest();
+		xhr.onload = function(){ alert (xhr.responseText); }
+		xhr.open('POST','uploadHost.php');
+        xhr.send('hostName=' + encodeURIComponent(whichHost));
+		alert(whichHost + " Profile Uploaded to Live Host.")
+	} else {
+		alert("Upload Cancelled")
+	}
 }
 
 function submitForm(oFormElement)
@@ -450,8 +570,9 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
     
     <script language="JavaScript">
       document.write('<img src="image/xp.gif" style="width:' + canvH + 'px;height:' + canvH + 'px;position:absolute;top:0px;left:0px;" usemap="#grammap" />')
-      document.write('<a href="#" onClick="cancelMods();"><img src="image/button-cancel.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.35 + 'px;left:' + ccD*.1 + 'px;" /></a>')
-      document.write('<a href="#" onClick="echoHost();"><img src="image/button-modify.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.35 + 'px;left:' + ccD*1.2 + 'px;" /></a>')
+      document.write('<a href="#" onClick="cancelMods();" onMouseOver="nameover(1);return true" onMouseOut="nameout(1);"><img name="wanji" src="image/button-cancel.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.35 + 'px;left:' + ccD*.1 + 'px;" /></a>')
+      document.write('<a href="#" onClick="echoHost();" onMouseOver="nameover(2);return true" onMouseOut="nameout(2);"><img name="nunpa" src="image/button-modify.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.35 + 'px;left:' + ccD*1.2 + 'px;" /></a>')
+      document.write('<a href="#" onClick="sendHost();" onMouseOver="nameover(3);return true" onMouseOut="nameout(3);"><img name="yamni" src="image/button-commit.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.65 + 'px;left:' + ccD*.1 + 'px;" /></a>')
       document.write('</div>')  // End of Canvas Div holding attribute matrix
 	  document.write('<div id="side" style="background-color:#000000;position:absolute;top:0px;left:' + (canvH+1) + 'px;">')
       document.write('<form id="polyform" name="polyform">')
@@ -502,8 +623,16 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
         document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*8 + 'px;left:-' + ccD*.77 + 'px;width:' + ccD*4 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
     </script>
     
-    </div>
-</div>
+    <script language="JavaScript">  // This is the information and selector panel right side.
+      document.write('<div id="Rpanel" name="Rpanel" style="position:absolute;top:' + ccD*3.15 + 'px;left:' + ccD*4 + 'px;width:' + ccD*2.82 + 'px;height:' + ccD*7 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
+      document.write('<img class="Rpanel" src="image/sidepanel.jpg" style="position:absolute;top:0px;left:-' + ccD*1.1 + 'px;width:' + ccD*2.82 + 'px;height:' + ccD*7 + 'px;"><br />')
+	  document.write('</div>')
+    </script>
 
+    <script language="JavaScript">
+    	document.write('<div id="timebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.48 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*2.5 + 'px;"></div>')
+	</script>
+    
+</div>
 </body>
 </html>
