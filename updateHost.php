@@ -55,9 +55,3 @@ NOTES:  For create, will need to add fields for new Host ID#, name, age, sex, oc
 */
 
 ?>
-		
-
-
-
-
-
