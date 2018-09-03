@@ -4,12 +4,19 @@ This is a working version of the iconic Behavior Pad "Rose Graph" Interface that
 WHAT'S WHAT:
 
 BehaviorPad1_0ax.php:  The main file to use for a standard web-server deployed copy, to be viewed in Chrome.
+
 BehaviorPad1_0pi-ax.php:  The main file to use for a Raspberry Pi deployed copy (IE., embedded controller "Mid-Brain" in the host body), with the Pi running VSFTP and the NGINX server.
-index.php:  Just a "home Page" to select between the attribute editor listed above, and some other options for viewing host parameters
+
+index.php:  Just a "home Page" to select between the attribute editor listed above, and some other options for viewing host parameters.
+
 phpEnv.php:  This is just an informational screen of server parameters, operating system info, etc.
+
 scandir.php:  Used to list all available host profiles in the HostBuilds/ directory
+
 updateHost.php:  This file is called when you use the MODIFY button in the attribute editor.  This stores teh new host values in the host profile.
+
 uploadHost.php:  This file is what makes the currently displayed host become live in the host body.  It does so by overwriting HostBuilds/ACTIVEHOST.txt
+
 styles.css:  Critical for proper display rendering.
 
 EVERYTHING IS A WORK IN PROGRESS.  I'm always adding something when time (which is hard to come by) permits.  This doesn't work properly in Microsoft Edge, and I don't have time to figure out why.  It works nearly perfectly in Chrome on Windows, and that's good enough for me.  If you find the issue with Edge and want to generate a fix - just let me know.
