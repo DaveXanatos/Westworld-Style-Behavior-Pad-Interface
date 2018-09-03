@@ -153,7 +153,7 @@ function nameout(num)
 	//alert(winWidth + " " + winHeight)
     document.write('<a href="#" onClick="showHide()"><img src="image/DelosLogo.jpg" style="position:absolute;top:0px;left:0px;width:' + winHeight*.1738 + 'px;height:' + winHeight*.0545 + 'px;border:0px;"></a>')    // Based on an 863.1 pixel winHeight, 150px x 47px  // 1.1586 should yielod a 1000px image on the 863.1 px high window height initially designed on.
 	var displayPath = location.pathname;
-    document.write('<span style="position:absolute;top:0px;left:250px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
+    document.write('<span style="position:absolute;top:0px;left:250px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">Connected: HOSTCORE/Host_Builds' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
     document.write('<div id="BPMatrix" style="position:absolute;top:' + winHeight*.08 + 'px;left:' + winHeight*.07 + 'px;display:none;">') 
 
 function showHide() {

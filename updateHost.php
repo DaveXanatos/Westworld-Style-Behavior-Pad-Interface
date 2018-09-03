@@ -9,7 +9,7 @@ foreach ($_REQUEST as $key => $value)
 	if (strpos($key, 'activeAttVal_') !== false) {
 		$myDump = $myDump . htmlspecialchars($value) . "\r\n";
 	}
-echo $myDump."\r\n";
+//echo $myDump."\r\n";
 
 $separator = "\r\n";
 $dline = explode($separator, $myDump);

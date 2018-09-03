@@ -1,16 +1,16 @@
 <?php
 $dir = 'HostBuilds/'; 
 $activeHost = htmlspecialchars($_REQUEST["hostName"]);
-$my_file = $activeHost . ".txt";
-$loadHost = $dir . $my_file;
-$targetHost = $dir . "ACTIVEHOST.txt"
+$loadHost = $dir . $activeHost . ".txt";
+$targetHost = $dir . "ACTIVEHOST.txt";
 
 if (file_exists($loadHost)) {
-    echo "The file $loadHost exists\r\n";
-	//copy($loadHost,$targetHost);
-	}
+    //echo "The file \"$loadHost\" exists.  ";
+	copy($loadHost,$targetHost);
+	echo "Host Profile \"$activeHost\" is now active in host body";
 } else {
-    echo "The file $loadHost does not exist";
+    echo "The file \"$loadHost\" does not exist";
 }
 
 ?>
+
