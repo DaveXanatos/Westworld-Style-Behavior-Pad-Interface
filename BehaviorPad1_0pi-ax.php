@@ -250,11 +250,11 @@ function echoHost() {
 
 function sendHost()   // Dis Don't Work...  Probably need to send to a separate PHP file like I do above in echoHost()
 {
-	if (confirm("Are you sure you want to upload the current host profile to the live host?") == true) {
+	if (confirm("Are you sure you want to upload the <?= $host_name ?> profile to the live host?") == true) {
 		var whichHost = "<?= $host_name ?>"
 		var xhr = new XMLHttpRequest();
-		xhr.onload = function(){ alert (xhr.responseText); }
-		xhr.open('POST','uploadHost.php');
+		xhr.onload = function(){ alert(xhr.responseText); }
+		xhr.open('POST','uploadHost.php?hostName=' + whichHost);
         xhr.send('hostName=' + encodeURIComponent(whichHost));
 		alert(whichHost + " Profile Uploaded to Live Host.")
 	} else {
