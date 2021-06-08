@@ -23,17 +23,11 @@ if ($tv == "") {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><?= $host_name ?> Host Behavior Pad Control Interface</title>
 <!-- https://youtu.be/L6EatojX3SI -->
-<!-- ****************** TO DO LIST **************************
-
-Set slider to report 0-100 in small white text, with 0-20 steps displaying in large text, and attrib number in white small above that
-
-Set system to save a profile
-
--->
 
 <link rel="stylesheet" type="text/css" href="styles.css">
 
 <script>
+
 function startTime() {
     var today = new Date();
 	var dy = today.getDate();
@@ -146,14 +140,14 @@ function nameout(num)
 <script>
 <!-- //
 // https://stackoverflow.com/questions/18592679/xmlhttprequest-to-post-html-form
-//alert(location.pathname);  // /BP/BehaviorPad1_0x.php
+//alert(location.pathname);  // /BP/BehaviorPad1_0pi-ax.php
 //alert(location.search);    // ?req=LH&hName=CLEMENTINE#
 	var winWidth = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)*.9;
 	var winHeight = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight)*.9;
 	//alert(winWidth + " " + winHeight)
-    document.write('<a href="#" onClick="showHide()"><img src="image/DelosLogo.jpg" style="position:absolute;top:0px;left:0px;width:' + winHeight*.1738 + 'px;height:' + winHeight*.0545 + 'px;border:0px;"></a>')    // Based on an 863.1 pixel winHeight, 150px x 47px  // 1.1586 should yielod a 1000px image on the 863.1 px high window height initially designed on.
+    document.write('<a href="#" onClick="showHide()"><img src="image/XanatosLogo.jpg" style="position:absolute;top:0px;left:0px;width:' + winHeight*.1738 + 'px;height:' + winHeight*.0545 + 'px;border:0px;"></a>')    // Based on an 863.1 pixel winHeight, 150px x 47px  // 1.1586 should yielod a 1000px image on the 863.1 px high window height initially designed on.
 	var displayPath = location.pathname;
-    document.write('<span style="position:absolute;top:0px;left:250px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">Connected: HOSTCORE/Host_Builds' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
+    document.write('<span style="position:absolute;top:0px;left:150px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">Connected: HOSTCORE/Host_Builds' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
     document.write('<div id="BPMatrix" style="position:absolute;top:' + winHeight*.08 + 'px;left:' + winHeight*.07 + 'px;display:none;">') 
 
 function showHide() {
@@ -248,8 +242,7 @@ function echoHost() {
   }
 }
 
-function sendHost()   // Dis Don't Work...  Probably need to send to a separate PHP file like I do above in echoHost()
-{
+function sendHost() {
 	if (confirm("Are you sure you want to upload the <?= $host_name ?> profile to the live host?") == true) {
 		var whichHost = "<?= $host_name ?>"
 		var xhr = new XMLHttpRequest();
@@ -284,10 +277,10 @@ var attribute = [<?php
 	$hCurrJob = $hostParts[3];
 	$hIDno = trim($hostParts[4]);
 	for ($v = 3; $v <= $n; $v++) {                         // First two lines are other data, not attribs.
-		print '"'.trim($data[$v-1]).'",';                  // "ATTRIB_NAME|VAL", "ATTRIB_NAME|VAL", ... "ATTRIB_NAME|VAL"
+		print '"'.trim($data[$v-1]).'",';              // "ATTRIB_NAME|VAL", "ATTRIB_NAME|VAL", ... "ATTRIB_NAME|VAL"
 	}?>];	
 
-L = attribute.length;                                      // Number of Attributes = Number of Spokes.
+L = attribute.length;                                          // Number of Attributes = Number of Spokes.
 
 // Set up display parameters      // <<<<<<<<<<<<<<<<<<<<<<<< PRIME CANDIDATE FOR PHP-IFYING
 var canvW = winHeight  // Will be set to screen Height: winHeight, when I make this fully scalable and elastic
@@ -608,31 +601,47 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
         </div>
         
     <script language="JavaScript">  // This is the menu box at the top right.
-      document.write('<div id="menus" name="menus" style="position:absolute;top:55px;left:10px;width:' + ccD*4 + 'px;height:' + ccD*1 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
-    
+      document.write('<div id="menus" name="menus" style="position:absolute;top:35px;left:10px;width:' + ccD*4 + 'px;height:' + ccD*1 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
       document.write('<img class="hostImage" src="image/Hosts/<?= $host_name ?>.jpg" style="clip-path:circle(51%);position:absolute;top:0px;left:-' + ccD*1.1 + 'px;width:' + ccD*1 + 'px;height:' + ccD*1 + 'px;">')
     
       document.write('<a href="index.php" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">MAIN MENU</a><br />')
       document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Load Host: <input type="text" onkeyup="findHost(this.value)" size="12" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br /><span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
       document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Current Host: <?= $hFname ?>, <?= $hSex ?>, <?= $hAge ?>,  <?= $hCurrJob ?></span><br />')
       //document.write('<p><a href="#" onClick="showHide()">Show Matrix</a> or <a href="#" onClick="getCurrentFile()">Show File</a></p>')
-	  document.write('</div>')
+      document.write('</div>')
     </script>
     
     <script language="JavaScript">
         document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*8 + 'px;left:-' + ccD*.77 + 'px;width:' + ccD*4 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
     </script>
 
+
+
+
+
+    <script language="JavaScript">  // This is the information and selector panel right side.
+      document.write('<div id="Speechpanel" name="Speechpanel" style="position:absolute;top:' + ccD*1.48 + 'px;left:' + ccD*1.5 + 'px;width:' + ccD*4 + 'px;height:' + ccD*1 + 'px;border:2px solid #066;padding:' + 5 + 'px;">')
+      document.write('<form name="speakform" id="speakform" methon="POST" action="SendSpeech.php"><span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.2 + 'px;">Enter message to speak:<br /><input type="text" size="30" style="margin-top:7px;color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.2 + 'px;"></span>')
+      document.write('<br /><input type="submit" name="submit" id="submit" style="margin-top:7px;color:#337733;"></form>')
+      document.write('</div>')
+    </script>  <!-- 3.15 -->
+
+
+
+
+
     <script language="JavaScript">  // This is the information and selector panel right side.
       document.write('<div id="Rpanel" name="Rpanel" style="position:absolute;top:' + ccD*3.15 + 'px;left:' + ccD*4 + 'px;width:' + ccD*2.82 + 'px;height:' + ccD*7 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
       document.write('<img class="Rpanel" src="image/sidepanel.jpg" style="position:absolute;top:0px;left:-' + ccD*1.1 + 'px;width:' + ccD*2.82 + 'px;height:' + ccD*7 + 'px;"><br />')
-	  document.write('</div>')
-    </script>
+      document.write('</div>')
+    </script>  <!-- 3.15 -->
 
     <script language="JavaScript">
+        initName = document.getElementById("activeHost").value
+    	document.write('<div id="namebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.20 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*1.4 + 'px;"><b style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.18 + 'px;">' + initName + '</b></div>')    
     	document.write('<div id="timebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.48 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*2.5 + 'px;"></div>')
-	</script>
-    
+    </script>
+
 </div>
 
 </body>
