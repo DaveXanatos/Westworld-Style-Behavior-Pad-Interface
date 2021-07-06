@@ -1,6 +1,6 @@
-﻿<?php 
+﻿<?php
 ini_set('display_errors', 1);
-error_reporting(R_ALL & ~E_NOTICE);
+error_reporting('R_ALL' & ~'E_NOTICE');
 
 $user_id = htmlspecialchars($_GET['user_id']);
 $host_name = htmlspecialchars($_GET['hName']);
@@ -14,6 +14,12 @@ if ($host_name == "") {
 if ($tv == "") {
 	$tv = 50;
 }
+
+$context = new ZMQContext();
+$requester = new ZMQSocket($context, ZMQ::SOCKET_REQ);
+$requester->connect("tcp://127.0.0.1:5555");
+$SpeakText = "Behavior Pad Interface Connected";
+$requester->send($SpeakText);
 
 ?>
 
@@ -30,16 +36,16 @@ if ($tv == "") {
 
 function startTime() {
     var today = new Date();
-	var dy = today.getDate();
-	var mn = today.getMonth() + 1;
-	var yr = 2000 + (today.getYear() - 100);
+    var dy = today.getDate();
+    var mn = today.getMonth() + 1;
+    var yr = 2000 + (today.getYear() - 100);
     var h = today.getHours();
     var m = today.getMinutes();
     var s = today.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
-	dy = checkTime(dy);
-	mn = checkTime(mn);
+    dy = checkTime(dy);
+    mn = checkTime(mn);
     document.getElementById('timebox').innerHTML = "<b style='color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:" + ccD*.20 + "px;'>" + mn + "/" + dy + "/" + yr + "  " + h + ":" + m + ":" + s + "</b>";
     var t = setTimeout(startTime, 500);
 }
@@ -66,44 +72,44 @@ if ((navigator.userAgent.substring(0,9) == "Mozilla/3") ||
         Nstandard = new MakeArray(10)
         Nover = new MakeArray(10)
 
-		Nstandard[1].src = "image/button-cancel.jpg"
+	Nstandard[1].src = "image/button-cancel.jpg"
         Nstandard[2].src = "image/button-modify.jpg"
         Nstandard[3].src = "image/button-commit.jpg"
-		Nstandard[4].src = "image/buttons/button0.jpg"
-		Nstandard[5].src = "image/buttons/button0.jpg"
-		Nstandard[6].src = "image/buttons/button0.jpg"
-		Nstandard[7].src = "image/buttons/button0.jpg"
-		Nstandard[8].src = "image/buttons/button0.jpg"
- 
+	Nstandard[4].src = "image/button-send2host.jpg"
+	Nstandard[5].src = "image/buttons/button0.jpg"
+	Nstandard[6].src = "image/buttons/button0.jpg"
+	Nstandard[7].src = "image/buttons/button0.jpg"
+	Nstandard[8].src = "image/buttons/button0.jpg"
+
         Nover[1].src = "image/button-cancel1.jpg"
         Nover[2].src = "image/button-modify1.jpg"
         Nover[3].src = "image/button-commit1.jpg"
-		Nover[4].src = "image/buttons/button1.jpg"
-		Nover[5].src = "image/buttons/button1.jpg"
-		Nover[6].src = "image/buttons/button1.jpg"
-		Nover[7].src = "image/buttons/button1.jpg"
-		Nover[8].src = "image/buttons/button1.jpg"
+	Nover[4].src = "image/button-send2host1.jpg"
+	Nover[5].src = "image/buttons/button1.jpg"
+	Nover[6].src = "image/buttons/button1.jpg"
+	Nover[7].src = "image/buttons/button1.jpg"
+	Nover[8].src = "image/buttons/button1.jpg"
         }
 
 function nameover(num)
         {
         if ((navigator.userAgent.substring(0,9) == "Mozilla/3") ||
             (navigator.userAgent.substring(0,9) == "Mozilla/4") ||
-			(navigator.userAgent.substring(0,9) == "Mozilla/5") ||
-			(navigator.userAgent.substring(0,9) == "Mozilla/6"))
+	    (navigator.userAgent.substring(0,9) == "Mozilla/5") ||
+	    (navigator.userAgent.substring(0,9) == "Mozilla/6"))
                 {
                 if (Nover[num].src != "")
                         {
-						if (num == 1) {document.wanji.src = Nover[num].src}
-						if (num == 2) {document.nunpa.src = Nover[num].src}
-						if (num == 3) {document.yamni.src = Nover[num].src}
-						if (num == 4) {document.topa.src = Nover[num].src}
-						if (num == 5) {document.zaptan.src = Nover[num].src}
-						if (num == 6) {document.shakpe.src = Nover[num].src}
-						if (num == 7) {document.shakowin.src = Nover[num].src}
-						if (num == 8) {document.shaglogon.src = Nover[num].src}
-						if (num == 9) {document.napciunka.src = Nover[num].src}
-						if (num == 10) {document.wickcemna.src = Nover[num].src}
+			if (num == 1) {document.wanji.src = Nover[num].src}
+			if (num == 2) {document.nunpa.src = Nover[num].src}
+			if (num == 3) {document.yamni.src = Nover[num].src}
+			if (num == 4) {document.topa.src = Nover[num].src}
+			if (num == 5) {document.zaptan.src = Nover[num].src}
+			if (num == 6) {document.shakpe.src = Nover[num].src}
+			if (num == 7) {document.shakowin.src = Nover[num].src}
+			if (num == 8) {document.shaglogon.src = Nover[num].src}
+			if (num == 9) {document.napciunka.src = Nover[num].src}
+			if (num == 10) {document.wickcemna.src = Nover[num].src}
                        }
                 }
         }
@@ -112,25 +118,33 @@ function nameout(num)
         {
         if ((navigator.userAgent.substring(0,9) == "Mozilla/3") ||
             (navigator.userAgent.substring(0,9) == "Mozilla/4") ||
-			(navigator.userAgent.substring(0,9) == "Mozilla/5") ||
-			(navigator.userAgent.substring(0,9) == "Mozilla/6"))
-                {   
+	    (navigator.userAgent.substring(0,9) == "Mozilla/5") ||
+	    (navigator.userAgent.substring(0,9) == "Mozilla/6"))
+                {
                 if (Nstandard[num].src != "")
                         {
                         if (num == 1) {document.wanji.src = Nstandard[num].src}
-						if (num == 2) {document.nunpa.src = Nstandard[num].src}
-						if (num == 3) {document.yamni.src = Nstandard[num].src}
-						if (num == 4) {document.topa.src = Nstandard[num].src}
-						if (num == 5) {document.zaptan.src = Nstandard[num].src}
-						if (num == 6) {document.shakpe.src = Nstandard[num].src}
-						if (num == 7) {document.shakowin.src = Nstandard[num].src}
-						if (num == 8) {document.shaglogon.src = Nstandard[num].src}
-						if (num == 9) {document.napciunka.src = Nstandard[num].src}
-						if (num == 10) {document.wickcemna.src = Nstandard[num].src}
+			if (num == 2) {document.nunpa.src = Nstandard[num].src}
+			if (num == 3) {document.yamni.src = Nstandard[num].src}
+			if (num == 4) {document.topa.src = Nstandard[num].src}
+			if (num == 5) {document.zaptan.src = Nstandard[num].src}
+			if (num == 6) {document.shakpe.src = Nstandard[num].src}
+			if (num == 7) {document.shakowin.src = Nstandard[num].src}
+			if (num == 8) {document.shaglogon.src = Nstandard[num].src}
+			if (num == 9) {document.napciunka.src = Nstandard[num].src}
+			if (num == 10) {document.wickcemna.src = Nstandard[num].src}
                         }
                 }
         }
-// <a href="xxx.html" onMouseOver="nameover(1); return true" onMouseOut="nameout(1)"><img name="wanji" SRC="image/buttons/xxx0.jpg" width=100 height=20 border=0></a><br />
+
+function SpeakText(text) {
+    var address = "SendSpeech.php?speak=" + document.getElementById("speaktext").value;
+    var tmp = new XMLHttpRequest();
+    tmp.open("POST", address);
+    tmp.send(null);
+    document.getElementById("speaktext").value = "";
+    }
+
 </script>
 
 </head>
@@ -139,19 +153,19 @@ function nameout(num)
 
 <script>
 <!-- //
-// https://stackoverflow.com/questions/18592679/xmlhttprequest-to-post-html-form
-//alert(location.pathname);  // /BP/BehaviorPad1_0pi-ax.php
-//alert(location.search);    // ?req=LH&hName=CLEMENTINE#
-	var winWidth = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)*.9;
-	var winHeight = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight)*.9;
-	//alert(winWidth + " " + winHeight)
+    // https://stackoverflow.com/questions/18592679/xmlhttprequest-to-post-html-form
+    //alert(location.pathname);  // /BP/BehaviorPad1_0pi-ax.php
+    //alert(location.search);    // ?req=LH&hName=CLEMENTINE#
+    var winWidth = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)*.9;
+    var winHeight = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight)*.9;
+    //alert(winWidth + " " + winHeight)
     document.write('<a href="#" onClick="showHide()"><img src="image/XanatosLogo.jpg" style="position:absolute;top:0px;left:0px;width:' + winHeight*.1738 + 'px;height:' + winHeight*.0545 + 'px;border:0px;"></a>')    // Based on an 863.1 pixel winHeight, 150px x 47px  // 1.1586 should yielod a 1000px image on the 863.1 px high window height initially designed on.
-	var displayPath = location.pathname;
+    var displayPath = location.pathname;
     document.write('<span style="position:absolute;top:0px;left:150px;margin-left:50px;color:#555555;font-family:Arial;font-size:' + winHeight*.02 + 'px;font-weight:bold;text-align:center;line-height:' + winHeight*.1 + 'px;">Connected: HOSTCORE/Host_Builds' + displayPath + '</span>')   // 1.1586 should yield a 1000px image on the 863.1 px high window height initially designed on.
     document.write('<div id="BPMatrix" style="position:absolute;top:' + winHeight*.08 + 'px;left:' + winHeight*.07 + 'px;display:none;">') 
 
 function showHide() {
-	var x = document.getElementById("BPMatrix");
+    var x = document.getElementById("BPMatrix");
     if (x.style.display === "none") {
         x.style.display = "block";
     } else {
@@ -160,7 +174,7 @@ function showHide() {
 }
 
 function findHost(str) {
-    if (str.length == 0) { 
+    if (str.length == 0) {
         document.getElementById("hostList").innerHTML = "";
         return;
     } else {
@@ -190,7 +204,7 @@ function getCurrentFile() {
   return (filename.lastIndexOf("/") >= (filename.length - 1)) ? (filename.substring( filename.substring(0, filename.length - 2).lastIndexOf("/")+1, filename.lastIndexOf("/"))).toLowerCase() : (filename.substring(filename.lastIndexOf("/")+1, tail)).toLowerCase();
 }
 
-function cancelMods() {                           // Cancel Button in upper left.
+function cancelMods() { // Cancel Button in upper left.
 	var whichHost = "<?= $host_name ?>"
 	var thisFile = getCurrentFile();
 	//alert(thisFile);
@@ -214,7 +228,7 @@ function buildMap() {
 	document.getElementById("mapbox").innerHTML = mapBuild;
 	return false;
 }
-		
+
 function echoHostXY() {
 	hostVals = "";
 	for (i=0;i<L;i++) {
@@ -265,7 +279,7 @@ function submitForm(oFormElement)
 }
 
 // Set up attribute Array - Note they start at 6:00 and build counterclockwise.
-var attribute = [<?php 
+var attribute = [<?php
 	$data = file("HostBuilds/" . $host_name . ".txt");     // Reads each line of file into an addressable array $data(0), $data(1)...
 	$n = count($data);                                     // Gets line count in $data
 	// Maeve Millay|F|36|Madam at Mariposa|AC50000487105
@@ -278,7 +292,7 @@ var attribute = [<?php
 	$hIDno = trim($hostParts[4]);
 	for ($v = 3; $v <= $n; $v++) {                         // First two lines are other data, not attribs.
 		print '"'.trim($data[$v-1]).'",';              // "ATTRIB_NAME|VAL", "ATTRIB_NAME|VAL", ... "ATTRIB_NAME|VAL"
-	}?>];	
+	}?>];
 
 L = attribute.length;                                          // Number of Attributes = Number of Spokes.
 
@@ -302,11 +316,11 @@ var polyBuild = ""
 var polyBuild2 = "M"
 
 var mapPoints = [];
-		
+
 function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 	if (canvas.getContext) {
 		for (var R = ccR; R <= ocR; R += paramStep) {
-			var ctx = canvas.getContext('2d'); 
+			var ctx = canvas.getContext('2d');
 			var X = canvas.width / 2;
 			var Y = canvas.height / 2;
 			ctx.beginPath();
@@ -317,7 +331,7 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 		}
 
 		// 512, 512 is center of circle; 462 is short side length to inner circle, 562 is long length to inner circle (100px radius inner circle)
-		
+
 		attrib_cnt = 0
 		for (i=0;i<360;i+=sa) {
 			lineX=(Math.round(1000*(Math.sin(i*Math.PI/180.0))))/1000
@@ -326,9 +340,9 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 			drwYs=Math.round((lineY*ccR)+icY)
 			drwXe=Math.round((lineX*ocR)+icX)
 			drwYe=Math.round((lineY*ocR)+icY)
-			ctx.beginPath(); 
+			ctx.beginPath();
 			ctx.strokeStyle = graphColor; //start top vert
-			ctx.beginPath(); 
+			ctx.beginPath();
 			ctx.strokeStyle = graphColor; //start top vert
 			ctx.moveTo(drwYs,drwXs); //(in from R, down from top): end
 			ctx.lineTo(drwYe,drwXe); //(in from R, down from top): fill
@@ -349,7 +363,7 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 			txt = " " + attParts[0] + " [" + attParts[1] + "]";
 
 			ctxMTW = Math.round(ctx.measureText(txt).width)
-			
+
 			if (drwXe == icX && drwYe < icY) {                        //12:00
 				drwXea = drwXe - (ctxMTW/2)
 				drwYea = drwYe - (ccD*.04)
@@ -395,7 +409,7 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 
 			thesePoints = startIMX + "," + startIMY + "," + endIMX + "," + endIMY  // Image Map Coordinates (IMCx)
 			document.getElementById("IMC" + attrib_cnt).value = thesePoints        // Set hiddeen input vals to hold Image Map Coordinates
-			
+
 			ctx.fillText(txt,drwXea,drwYea);
 
 			attrib_cnt = attrib_cnt + 1
@@ -404,30 +418,30 @@ function drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas) {
 }
 
 function draw() {
-	var graphColor = "#446670";
-	var strokeColor = "#446670"
-	ctxfont = ccD*.18 + "px Arial";
-	ctxfillStyle = "#70a8c9"; //"#668891";
-	var canvas = document.getElementById('hostgram');
-	//Draw concentric circles of hostgram, spokes, etc
-	drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas);
+    var graphColor = "#446670";
+    var strokeColor = "#446670"
+    ctxfont = ccD*.18 + "px Arial";
+    ctxfillStyle = "#70a8c9"; //"#668891";
+    var canvas = document.getElementById('hostgram');
+    //Draw concentric circles of hostgram, spokes, etc
+    drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas);
 
-	var graphColor = "#003333";
-	var strokeColor = "#114450"
-	ctxfont = ccD*.18 + "px Arial";
-	ctxfillStyle = "#70a8c9"; //"#668891";
-	var canvas = document.getElementById('bggram');
-	//Draw concentric circles of bggram, spokes, etc
-	drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas);
+    var graphColor = "#003333";
+    var strokeColor = "#114450"
+    ctxfont = ccD*.18 + "px Arial";
+    ctxfillStyle = "#70a8c9"; //"#668891";
+    var canvas = document.getElementById('bggram');
+    //Draw concentric circles of bggram, spokes, etc
+    drawGram(graphColor,strokeColor,ctxfont,ctxfillStyle,canvas);
 
-	var rotated = false;
+    var rotated = false;
     var div = document.getElementById('selAtt'),
     deg = rotated ? -90 : -90;
-    div.style.webkitTransform = 'rotate('+deg+'deg)'; 
-    div.style.mozTransform    = 'rotate('+deg+'deg)'; 
-    div.style.msTransform     = 'rotate('+deg+'deg)'; 
-    div.style.oTransform      = 'rotate('+deg+'deg)'; 
-    div.style.transform       = 'rotate('+deg+'deg)'; 
+    div.style.webkitTransform = 'rotate('+deg+'deg)';
+    div.style.mozTransform    = 'rotate('+deg+'deg)';
+    div.style.msTransform     = 'rotate('+deg+'deg)';
+    div.style.oTransform      = 'rotate('+deg+'deg)';
+    div.style.transform       = 'rotate('+deg+'deg)';
 }
 
 function setAttrib(n) {
@@ -467,7 +481,7 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
 	thisVal = "activeAttVal_" + whichAttrib                       // Var to hold selected attribute hidden-input name
 	document.getElementById(thisVal).value = attVal               // Set that attribute's hidden-input to the adjusted value
 	attribute[whichAttrib] = attrName[0] + "|" + attVal
-			  
+
 	getCoords(whichAttrib,attVal);
 
 	storeValX = "p" + whichAttrib + "x"
@@ -487,7 +501,7 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
 			at[i] = thisATline + ", "
 		} else {
 			at[i] = thisATline
-		} 
+		}
 	}
 
 	at[whichAttrib] = drwYe + "px " + drwXe + "px"
@@ -495,15 +509,15 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
 	if (whichAttrib < Llim) {
 		at[whichAttrib] = at[whichAttrib] + ", "
 	}
-	
+
 	cpLine = ""
 	for (nxtCPLine=0;nxtCPLine<L;nxtCPLine++) {
 		cpLine = cpLine + at[nxtCPLine] ;
     }
-	cpLine = "polygon(" + cpLine + ")"; 
+	cpLine = "polygon(" + cpLine + ")";
 	//alert(cpLine);
 	//document.getElementById("hostgram").style.clipPath = "polygon(" + at[0] + at[1] + at[2] + at[3] + at[4] + at[5] + at[6] + at[7] + at[8] + at[9] + at[10] + at[11] + at[12] + at[13] + at[14] + at[15] + ")";  
-	document.getElementById("hostgram").style.clipPath = cpLine;  
+	document.getElementById("hostgram").style.clipPath = cpLine;
 	document.getElementById("hostgram").style.filter = "drop-shadow(2px 2px 0px gray) drop-shadow(2px -2px 0px gray) drop-shadow(-2px 2px 0px gray) drop-shadow(-1px -1px 0px gray)"; 
  	document.getElementById("midl").innerHTML = attVal;
 
@@ -540,10 +554,10 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
             <input type="submit" value="submit" style="position:absolute;top:0px;left:1000px;">
         </form>
     </div>
-    
+
     <script language="JavaScript">
       //alert(canvH + " " + ccD + " " + icY)    // 'placer' sets position of center orange value
-      placer = icY-(ccD/2)     
+      placer = icY-(ccD/2)
       hostID = "ID#<?=$hIDno?>"
       document.write('<canvas id="bggram" width="' + canvH + '" height="' + canvH + '" style="background-color:#000000;position:absolute;top:0px;left:0px;"></canvas>')
       document.write('<canvas id="hostgram" width="' + canvH + '" height="' + canvH + '" style="background-color:#002225;position:absolute;top:0px;left:0px;"></canvas>')
@@ -554,38 +568,40 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
       document.write('<span style="position:absolute;top:' + ccD*.07 + 'px;left:' + ccD*2.4 + 'px;color:#7799aa;">ATRBT GROUP 01 </span>')
       document.write('<span style="position:absolute;top:' + ccD*.07 + 'px;left:' + ccD*4.2 + 'px;color:#778899;">- ' + hostID + '</span>')
     </script>
-        
+
     </div>
-    
+
     <!-- Sets hotspots on transparent gif overlay, use for selecting attribute number -->
     <!-- Contents are written dynamically by JavaScript after page is drawn -->
     <div id="mapbox"><map name="grammap"></map></div>
-    
+
     <script language="JavaScript">
       document.write('<img src="image/xp.gif" style="width:' + canvH + 'px;height:' + canvH + 'px;position:absolute;top:0px;left:0px;" usemap="#grammap" />')
       document.write('<a href="#" onClick="cancelMods();" onMouseOver="nameover(1);return true" onMouseOut="nameout(1);"><img name="wanji" src="image/button-cancel.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.35 + 'px;left:' + ccD*.1 + 'px;" /></a>')
       document.write('<a href="#" onClick="echoHost();" onMouseOver="nameover(2);return true" onMouseOut="nameout(2);"><img name="nunpa" src="image/button-modify.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.35 + 'px;left:' + ccD*1.2 + 'px;" /></a>')
       document.write('<a href="#" onClick="sendHost();" onMouseOver="nameover(3);return true" onMouseOut="nameout(3);"><img name="yamni" src="image/button-commit.jpg" style="width:' + ccD + 'px;height:' + ccD*.27 + 'px;position:absolute;top:' + ccD*1.65 + 'px;left:' + ccD*.1 + 'px;" /></a>')
       document.write('</div>')  // End of Canvas Div holding attribute matrix
-	  document.write('<div id="side" style="background-color:#000000;position:absolute;top:0px;left:' + (canvH+1) + 'px;">')
+      // This is the slider bar itself
+      document.write('<div id="side" style="background-color:#000000;position:absolute;top:0px;left:' + (canvH+1) + 'px;">')
       document.write('<form id="polyform" name="polyform">')
-      document.write('	<input type="range" orient="vertical" min="0" max="100" value="50" id="testRange" onmousemove="setVal(this.value)" style="height:' + ocD + 'px;width:20px;position:absolute;top:' + ccD*3 + 'px;left:' + ccD*1.87 + 'px;" /><br />')
+      document.write('	<input type="range" orient="vertical" min="0" max="100" value="50" id="testRange" onmousemove="setVal(this.value)" style="height:' + ocD + 'px;width:18px;position:absolute;top:' + ccD*2.93 + 'px;left:' + ccD*1.88 + 'px;" /><br />')
       document.write('</form>')
-      
-      document.write('<div id="barContainer" style="background-color:#000000;border:0px;width:' + ccD*.44 + 'px;height:' + (ocD+50) + 'px;position:absolute;top:' + ccD*3 + 'px;left:' + ccD*1.5 + 'px;">')   // Was: 'px;left:' + ccD*.68 + 'px;">')
-    
+
+      // Slider bar with numbers, right of rose graph
+      document.write('<div id="barContainer" style="background-color:#000000;border:0px;width:' + ccD*.44 + 'px;height:' + (ocD+50) + 'px;position:absolute;top:' + ccD*2.97 + 'px;left:' + ccD*1.5 + 'px;">')   // Was: 'px;left:' + ccD*.68 + 'px;">')
+
                 function byte2Hex(n)
                   {
                     var nybHexString = "0123456789ABCDEF";
                     return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
                   }
-        
-                var startBarsT=15  // Was 8; Moves blocks AND numbers down with higher number
-                var startBarsL=0   // Was 3; Higher = righter forblocks and numbers
+
+                var startBarsT=18  // Was 15; Moves blocks AND numbers down with higher number
+                var startBarsL=7   // Was 0; Higher = righter forblocks and numbers
                 var bgColorStartR=79  // 4fd8de to 356782    D26, D113, D92  decr. 1, 6, 5; determined from photoshop derived color differences divided by numSteps
                 var bgColorStartG=170  //
                 var bgColorStartB=200  //
-    
+
                 for (attBars=numSteps+1;attBars>0;attBars-=1) {
                     var output = '#' + byte2Hex(bgColorStartR) + byte2Hex(bgColorStartG) + byte2Hex(bgColorStartB);
                     //alert(output)
@@ -599,36 +615,28 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
                 }
             </script>
         </div>
-        
+
     <script language="JavaScript">  // This is the menu box at the top right.
       document.write('<div id="menus" name="menus" style="position:absolute;top:35px;left:10px;width:' + ccD*4 + 'px;height:' + ccD*1 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
       document.write('<img class="hostImage" src="image/Hosts/<?= $host_name ?>.jpg" style="clip-path:circle(51%);position:absolute;top:0px;left:-' + ccD*1.1 + 'px;width:' + ccD*1 + 'px;height:' + ccD*1 + 'px;">')
-    
+
       document.write('<a href="index.php" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">MAIN MENU</a><br />')
       document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Load Host: <input type="text" onkeyup="findHost(this.value)" size="12" style="color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span><br /><span id="hostList" style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;"></span> <br />')
       document.write('<span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.12 + 'px;">Current Host: <?= $hFname ?>, <?= $hSex ?>, <?= $hAge ?>,  <?= $hCurrJob ?></span><br />')
       //document.write('<p><a href="#" onClick="showHide()">Show Matrix</a> or <a href="#" onClick="getCurrentFile()">Show File</a></p>')
       document.write('</div>')
     </script>
-    
-    <script language="JavaScript">
-        document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*8 + 'px;left:-' + ccD*.77 + 'px;width:' + ccD*4 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
+
+    <script language="JavaScript">  // Text box to left of slider controls that holds the name of the attrib being edited
+        document.write('<div id="selAtt" style="color:#667777;position:absolute;border:0px;top:' + ccD*8 + 'px;left:-' + ccD*.6 + 'px;width:' + ccD*4 + 'px;height:' + ccD*.2 + 'px;font-family:arial;font-size:' + ccD*.2 + 'px;"></div>') // This is where the rotated attribute label goes
     </script>
 
-
-
-
-
-    <script language="JavaScript">  // This is the information and selector panel right side.
+    <script language="JavaScript">  // This is the box to send speech commands for testing/demo.
       document.write('<div id="Speechpanel" name="Speechpanel" style="position:absolute;top:' + ccD*1.48 + 'px;left:' + ccD*1.5 + 'px;width:' + ccD*4 + 'px;height:' + ccD*1 + 'px;border:2px solid #066;padding:' + 5 + 'px;">')
-      document.write('<form name="speakform" id="speakform" methon="POST" action="SendSpeech.php"><span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.2 + 'px;">Enter message to speak:<br /><input type="text" size="30" style="margin-top:7px;color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.2 + 'px;"></span>')
-      document.write('<br /><input type="submit" name="submit" id="submit" style="margin-top:7px;color:#337733;"></form>')
+      document.write('<form name="speakform" id="speakform"><span style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.2 + 'px;">Enter message to speak:<br /><input name="speaktext" id="speaktext" type="text" size="30" style="margin-top:7px;color:#7799aa;border: 1px solid #555555;background:#223344;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.2 + 'px;"></span>')
+      document.write('<br /><a href="#" onClick="SpeakText();" onMouseOver="nameover(4);" onMouseOut="nameout(4);"><img name="topa" src="image/button-send2host.jpg" style="width:' + ccD*1.75 + 'px;height:' + ccD*.35 + 'px;position:absolute;top:' + ccD*.72 + 'px;left:' + ccD*.05 + 'px" /></a></form>')
       document.write('</div>')
     </script>  <!-- 3.15 -->
-
-
-
-
 
     <script language="JavaScript">  // This is the information and selector panel right side.
       document.write('<div id="Rpanel" name="Rpanel" style="position:absolute;top:' + ccD*3.15 + 'px;left:' + ccD*4 + 'px;width:' + ccD*2.82 + 'px;height:' + ccD*7 + 'px;border:0px solid #066;padding:' + 0 + 'px;">')
@@ -636,7 +644,7 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
       document.write('</div>')
     </script>  <!-- 3.15 -->
 
-    <script language="JavaScript">
+    <script language="JavaScript">  // Data presented on top of the graphic grid on the far right
         initName = document.getElementById("activeHost").value
     	document.write('<div id="namebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.20 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*1.4 + 'px;"><b style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.18 + 'px;">' + initName + '</b></div>')    
     	document.write('<div id="timebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.48 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*2.5 + 'px;"></div>')
