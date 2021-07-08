@@ -34,6 +34,9 @@ $requester->send($SpeakText);
 
 <script>
 
+//The following prevents the page from refreshing if teh ENTER key is hit
+window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
+
 function startTime() {
     var today = new Date();
     var dy = today.getDate();
@@ -52,6 +55,10 @@ function startTime() {
 function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
+}
+
+function hostStatus() {
+    document.getElementById('hoststatus').innerHTML = '<span style="color:green;">ONLINE</span>'
 }
 
 function MakeArray(nom) {
@@ -149,7 +156,7 @@ function SpeakText(text) {
 
 </head>
 
-<body bgcolor="#000000" onload="draw(); buildMap(); loadHost(); setAttrib(0); startTime();">
+<body bgcolor="#000000" onload="draw(); buildMap(); loadHost(); setAttrib(0); startTime(); hostStatus();">
 
 <script>
 <!-- //
@@ -646,9 +653,16 @@ function setVal(attVal) {  //attVal = 0 to 100; reads selected attrib (activeAtt
 
     <script language="JavaScript">  // Data presented on top of the graphic grid on the far right
         initName = document.getElementById("activeHost").value
-    	document.write('<div id="namebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.20 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*1.4 + 'px;"><b style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.18 + 'px;">' + initName + '</b></div>')    
+    	document.write('<div id="namebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.20 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*1.4 + 'px;"><b style="color:#7799aa;font-family:Arial, Helvetica, sans-serif;font-size:' + ccD*.18 + 'px;">' + initName + '</b></div>')
     	document.write('<div id="timebox" style="border:0px solid #ffffff;position:absolute;top:' + ccD*3.48 + 'px;left:' + ccD*3.00 + 'px;width:' + ccD*2.5 + 'px;"></div>')
+        document.write('<div id="hoststatus" style="border:0px solid #ffffff;position:absolute;top:' + ccD*4.2 + 'px;left:' + ccD*3.10 + 'px;width:' + ccD*2.5 + 'px;"><span style="color:red;">OFFLINE</span></div>')
     </script>
+
+    <script language="JavaScript">  // Thse are Eyeball Boxes & Speech Processing Outputs.
+      document.write('<div id="lefteye" name="lefteye" style="position:absolute;top:' + ccD*1.48 + 'px;left:' + ccD*6 + 'px;width:' + ccD*3.5 + 'px;height:' + ccD*3.5 + 'px;border:2px solid #066;padding:' + 0 + 'px;"><span style="color:white;">LEFT EYE</span></div>')
+      document.write('<div id="righteye" name="righteye" style="position:absolute;top:' + ccD*5.1 + 'px;left:' + ccD*6 + 'px;width:' + ccD*3.5 + 'px;height:' + ccD*3.5 + 'px;border:2px solid #066;padding:' + 0 + 'px;"><span style="color:white;">RIGHT EYE</span></div>')
+      document.write('<div id="speechprocessing" name="speechprocessing" style="position:absolute;top:' + ccD*8.73 + 'px;left:' + ccD*6 + 'px;width:' + ccD*3.5 + 'px;height:' + ccD*2 + 'px;border:2px solid #066;padding:' + 0 + 'px;"><span style="color:white;">SPEECH PROCESSING</span></div>')
+    </script>  <!-- 3.15 -->
 
 </div>
 
